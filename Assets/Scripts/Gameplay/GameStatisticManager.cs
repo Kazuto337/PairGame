@@ -47,11 +47,20 @@ namespace Gameplay
         public void AddPair()
         {
             pairs++;
+            CalculateSore();
+        }
+        private void CalculateSore()
+        {
+            score = pairs * 100;
         }
 
         public void StopGameTime()
         {
             isGameRunning = false;
+        }
+        public void StartGameTime()
+        {
+            isGameRunning = true;
         }
 
         public ResultsDTO GetCurrentResults()

@@ -7,6 +7,9 @@ namespace Gameplay
 {
     public class UI_Manager : MonoBehaviour
     {
+        [Header("Gameplay Panel")]
+        [SerializeField] GameObject gameplayPanel;
+
         [Header("Statistics Panel")]
         [SerializeField] GameObject winnerPanel;
 
@@ -27,6 +30,8 @@ namespace Gameplay
             scoreTMP.text = $"{score} points";
 
             winnerPanel.SetActive(true);
+
+            gameplayPanel.SetActive(false);
         }
     } 
 }

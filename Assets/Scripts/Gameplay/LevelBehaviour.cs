@@ -1,5 +1,6 @@
 using Entities;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -19,8 +20,7 @@ namespace Gameplay
 
         private void Start()
         {
-            statisticManager = GameStatisticManager.Instance;
-            onWinnerDetected.AddListener(statisticManager.StopGameTime);
+            SetStatistics();
         }
         public void Construct(BlockBehaviour[,] matrix)
         {
@@ -37,31 +37,36 @@ namespace Gameplay
             CalculatePairs2Win();
         }
 
+        private void SetStatistics()
+        {
+            statisticManager = GameStatisticManager.Instance;
+            statisticManager.StartGameTime();
+            onWinnerDetected.AddListener(statisticManager.StopGameTime);
+        }
+
         private void CalculatePairs2Win()
         {
-            pairs2Win = 0;
-
+            List<int> gameElements = new List<int>();            
             for (int i = 0; i < levelMatrix.GetLength(0); i++)
             {
-                for (int j = 0; j < levelMatrix.GetLength(1) - 1; j++)
+                for (int j = 0; j < levelMatrix.GetLength(1); j++)
                 {
-                    if (levelMatrix[i, j] == levelMatrix[i, j + 1])
+                    gameElements.Add(levelMatrix[i,j].NumberID);
+                }
+            }
+
+            for (int i = 0; i < gameElements.Count; i++)
+            {
+                for (int j = i+1; j < gameElements.Count; j++)
+                {
+                    if (gameElements[i] == gameElements[j])
                     {
                         pairs2Win++;
                     }
                 }
             }
 
-            for (int j = 0; j < levelMatrix.GetLength(1); j++)
-            {
-                for (int i = 0; i < levelMatrix.GetLength(0) - 1; i++)
-                {
-                    if (levelMatrix[i, j] == levelMatrix[i + 1, j])
-                    {
-                        pairs2Win++;
-                    }
-                }
-            }
+            Debug.LogWarning($"Pairs to win: {pairs2Win}");
         }
 
         public void SortBlocks(Vector3 initialBlockPosition, float spacingX, float spacingY)
@@ -114,7 +119,7 @@ namespace Gameplay
         private IEnumerator VerifyPairs()
         {
             isVerifyingPairs = true;
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(.5f);
 
             if (selectedBlock1.NumberID != selectedBlock2.NumberID)
             {
@@ -143,6 +148,7 @@ namespace Gameplay
         {
             if (statisticManager.Pairs == pairs2Win)
             {
+                Debug.LogWarning("Winner");
                 onWinnerDetected.Invoke();
                 return;
             }

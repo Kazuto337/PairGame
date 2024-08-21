@@ -36,7 +36,7 @@ namespace Core
             ResultsDTO stats = level.GetStatistics();
 
             string totalClicks = stats.total_clicks.ToString();
-            string totalTime = stats.total_time.ToString(); 
+            string totalTime = stats.total_time.ToString("N"); 
             string pairs = stats.pairs.ToString();
             string score = stats.score.ToString();
 

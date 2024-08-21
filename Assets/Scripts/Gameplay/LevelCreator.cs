@@ -10,6 +10,9 @@ namespace Gameplay
         [SerializeField] BlockFabric blockFabric;
 
         [SerializeField] Transform parentTransform;
+        [SerializeField] Vector3 initialBlockPosition;
+        [SerializeField] float spacingX;
+        [SerializeField] float spacingY;
 
         public LevelBehaviour CreateLevel(List<BlockData> blocks)
         {
@@ -17,9 +20,10 @@ namespace Gameplay
             newLevelObj.transform.SetParent(parentTransform , false);
 
             LevelBehaviour newLevel = newLevelObj.AddComponent<LevelBehaviour>();
-
             BlockBehaviour[,] levelMatrix = CreateMatrix(blocks , newLevelObj.gameObject.transform);
             newLevel.Construct(levelMatrix);
+
+            newLevel.SortBlocks(initialBlockPosition, spacingX , spacingY);
 
             return newLevel;
         }
@@ -58,9 +62,9 @@ namespace Gameplay
             int greaterColumValue = 0;
             for (int i = 0; i < blocks.Count; i++)
             {
-                if (greaterColumValue < blocks[i].R)
+                if (greaterColumValue < blocks[i].C)
                 {
-                    greaterColumValue = blocks[i].R;
+                    greaterColumValue = blocks[i].C;
                 }
             }
 

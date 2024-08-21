@@ -15,7 +15,7 @@ namespace Gameplay
             BlockBehaviour newBlockObj = Instantiate(blockPrefab, parentTransform).GetComponent<BlockBehaviour>();
 
             Vector2Int newBlockCoords = new Vector2Int(block.R, block.C);
-            newBlockObj.Constructor(newBlockCoords, block.number, icons[block.number-1]);
+            newBlockObj.Constructor(newBlockCoords, block.number, icons[block.number - 1]);
 
             return newBlockObj;
         }

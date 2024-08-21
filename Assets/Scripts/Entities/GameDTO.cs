@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 
-[System.Serializable]
-public class GameDTO
+namespace Entities
 {
-    public List<BlockData> Blocks = new List<BlockData>();
+    [System.Serializable]
+    public class GameDTO
+	{
+		public List<BlockData> blocks = new List<BlockData>();
+	} 
 }

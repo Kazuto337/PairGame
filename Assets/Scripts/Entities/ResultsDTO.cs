@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResultsDTO
-
+namespace Entities
 {
+	public class ResultsDTO
 
+	{
+
+	} 
 }

@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelBehaviour : MonoBehaviour
+namespace Gameplay
 {
-    // Start is called before the first frame update
-    void Start()
+    public class LevelBehaviour : MonoBehaviour
     {
-        
-    }
+        BlockBehaviour[,] levelMatrix;
+        [SerializeField] GameStatisticManager statisticManager;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        private void Start()
+        {
+            statisticManager = GameStatisticManager.Instance;
+        }
+        public void Construct(BlockBehaviour[,] matrix)
+        {
+            levelMatrix = matrix;
+        }
+    } 
 }

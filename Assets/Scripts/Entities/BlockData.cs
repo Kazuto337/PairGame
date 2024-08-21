@@ -1,7 +1,10 @@
 
-[System.Serializable]
-public class BlockData
+namespace Entities
 {
-    public int R, C;
-    public int number;
+	[System.Serializable]
+	public class BlockData
+	{
+		public int R, C;
+		public int number;
+	} 
 }

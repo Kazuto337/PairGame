@@ -1,24 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Playables;
+using Entities;
 
-public class CommunicationService : MonoBehaviour
+namespace Core
 {
-    public GameDTO ReadGameJSON()
+    public class CommunicationService : MonoBehaviour
     {
-        string path = Application.streamingAssetsPath + "PairsGameJSON.text";
-
-        if (File.Exists(path))
+        public GameDTO ReadGameJSON()
         {
+            string path = Application.streamingAssetsPath + "/PairsGameJSON.txt";
 
-            string json = File.ReadAllText(path);
-            GameDTO gameData = JsonUtility.FromJson<GameDTO>(json);
+            if (File.Exists(path))
+            {
 
-            return gameData;
+                string json = File.ReadAllText(path);
+                GameDTO gameData = JsonUtility.FromJson<GameDTO>(json);
+
+                return gameData;
+            }
+
+            return null;
         }
-
-        return null;
-    }
+    } 
 }

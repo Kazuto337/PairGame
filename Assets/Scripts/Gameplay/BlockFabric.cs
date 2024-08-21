@@ -1,18 +1,23 @@
+using Entities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockFabric : MonoBehaviour
+namespace Gameplay
 {
-    // Start is called before the first frame update
-    void Start()
+    public class BlockFabric : MonoBehaviour
     {
-        
-    }
+        [SerializeField] GameObject blockPrefab;
+        [SerializeField] List<Sprite> icons;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public BlockBehaviour CreateBlock(BlockData block, Transform parentTransform)
+        {
+            BlockBehaviour newBlockObj = Instantiate(blockPrefab, parentTransform).GetComponent<BlockBehaviour>();
+
+            Vector2Int newBlockCoords = new Vector2Int(block.R, block.C);
+            newBlockObj.Constructor(newBlockCoords, block.number, icons[block.number-1]);
+
+            return newBlockObj;
+        }
     }
 }

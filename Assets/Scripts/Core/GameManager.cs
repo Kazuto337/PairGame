@@ -4,9 +4,12 @@ using UnityEngine;
 using Gameplay;
 using Entities;
 using UnityEngine.SocialPlatforms.Impl;
+using System.Runtime.Serialization.Formatters.Binary;
+using System;
+using System.IO;
 
 namespace Core
-{
+{    
     public class GameManager : MonoBehaviour
     {
         [Header("Game Initialization")]
@@ -29,6 +32,8 @@ namespace Core
             GameDTO gameData = commService.ReadGameJSON();
             level = levelCreator.CreateLevel(gameData.blocks);
             level.OnWinnerDetected.AddListener(OnGameFinished);
+
+            level.username = GlobalObjects.instance.GetUsername();
         }
 
         private void OnGameFinished()
@@ -45,7 +50,22 @@ namespace Core
 
         public void SaveStatistics()
         {
-            ResultsDTO stats = level.GetStatistics();
+            try
+            {
+                ResultsDTO stats = level.GetStatistics();
+                BinaryFormatter formatter = new BinaryFormatter();
+                string path = Application.streamingAssetsPath + "/stats.k337";
+
+                FileStream stream = new FileStream(path, FileMode.CreateNew);
+
+                formatter.Serialize(stream, stats);
+                stream.Close();
+            }
+            catch (Exception error)
+            {
+                ui_Manager.SendFeedBackMessage("An error has occured While Saving D:");
+                throw new Exception($"An error has occurred: {error}");
+            }
         }
     } 
 }

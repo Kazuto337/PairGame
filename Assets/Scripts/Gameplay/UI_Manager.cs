@@ -18,6 +18,9 @@ namespace Gameplay
         [SerializeField] TMP_Text pairTMP;
         [SerializeField] TMP_Text scoreTMP;
 
+        [Header("Feedback")]
+        [SerializeField] TMP_Text feedbackTMP;
+
         private void Start()
         {
             winnerPanel.SetActive(false);
@@ -32,6 +35,21 @@ namespace Gameplay
             winnerPanel.SetActive(true);
 
             gameplayPanel.SetActive(false);
+        }
+
+        public void SendFeedBackMessage(string message)
+        {
+            feedbackTMP.text = message;
+            feedbackTMP.gameObject.SetActive(true);
+
+            StartCoroutine(FeedbackMessageBehaviour());
+        }
+
+        private IEnumerator FeedbackMessageBehaviour()
+        {
+            yield return new WaitForSeconds(3f);
+            feedbackTMP.text = string.Empty;
+            feedbackTMP.gameObject.SetActive(false);
         }
     } 
 }

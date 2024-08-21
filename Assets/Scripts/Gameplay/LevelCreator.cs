@@ -9,21 +9,20 @@ namespace Gameplay
     {
         [SerializeField] BlockFabric blockFabric;
 
-        [SerializeField] Transform parentTransform;
-        [SerializeField] Vector3 initialBlockPosition;
+        [SerializeField] RectTransform blockSpawner;
         [SerializeField] float spacingX;
         [SerializeField] float spacingY;
 
         public LevelBehaviour CreateLevel(List<BlockData> blocks)
         {
             GameObject newLevelObj = new GameObject("Level");
-            newLevelObj.transform.SetParent(parentTransform , false);
+            newLevelObj.transform.SetParent(blockSpawner , false);
 
             LevelBehaviour newLevel = newLevelObj.AddComponent<LevelBehaviour>();
             BlockBehaviour[,] levelMatrix = CreateMatrix(blocks , newLevelObj.gameObject.transform);
             newLevel.Construct(levelMatrix);
 
-            newLevel.SortBlocks(initialBlockPosition, spacingX , spacingY);
+            newLevel.SortBlocks(blockSpawner, spacingX , spacingY);
 
             return newLevel;
         }

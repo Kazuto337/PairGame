@@ -11,6 +11,7 @@ namespace Gameplay
         UnityEvent onWinnerDetected = new UnityEvent();
         BlockBehaviour[,] levelMatrix;
         [SerializeField] GameStatisticManager statisticManager;
+        public string username;
 
         BlockBehaviour selectedBlock1, selectedBlock2;
         int pairs2Win = 0;
@@ -69,9 +70,9 @@ namespace Gameplay
             Debug.LogWarning($"Pairs to win: {pairs2Win}");
         }
 
-        public void SortBlocks(Vector3 initialBlockPosition, float spacingX, float spacingY)
+        public void SortBlocks(RectTransform spawnTransform, float spacingX, float spacingY)
         {
-            Vector3 newPosition = initialBlockPosition;
+            Vector3 newPosition = spawnTransform.position;
 
             for (int i = 0; i < levelMatrix.GetLength(0); i++)
             {
@@ -79,12 +80,13 @@ namespace Gameplay
                 {
                     if (levelMatrix[i, j] != null)
                     {
+                        levelMatrix[i, j].GetComponent<RectTransform>().SetParent(spawnTransform , false);
                         levelMatrix[i, j].transform.position = newPosition;
                         newPosition.x += spacingX;
                     }
                 }
 
-                newPosition.x = initialBlockPosition.x;
+                newPosition.x = spawnTransform.position.x;
                 newPosition.y -= spacingY;
             }
         }
@@ -162,7 +164,9 @@ namespace Gameplay
 
         public ResultsDTO GetStatistics()
         {
-            return statisticManager.GetCurrentResults();
+            ResultsDTO stats = statisticManager.GetCurrentResults();
+            stats.username = username;
+            return stats;
         }
     }
 }

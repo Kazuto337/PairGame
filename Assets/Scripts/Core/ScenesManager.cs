@@ -7,6 +7,10 @@ namespace Core
 {
     public class ScenesManager : MonoBehaviour
     {
+        public void LoadScene(int buildIndex)
+        {
+            SceneManager.LoadScene(buildIndex);
+        }
         public void RestartScene()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

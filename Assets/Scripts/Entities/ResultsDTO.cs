@@ -18,6 +18,6 @@ namespace Entities
     [System.Serializable]
     public class ScoreBoardDTO
     {
-        public List<ResultsDTO> results;
+        public List<ResultsDTO> results = new List<ResultsDTO>();
     }
 }

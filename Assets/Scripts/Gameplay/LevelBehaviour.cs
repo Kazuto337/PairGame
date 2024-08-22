@@ -99,8 +99,17 @@ namespace Gameplay
             }
 
             statisticManager.AddClick();
+
             if (selectedBlock2 != null)
             {
+                ClearSelectedBlocks();
+                return;
+            }
+
+            if (selectedBlock1 == selectedBlock)
+            {
+                selectedBlock1.HideIcon();
+
                 ClearSelectedBlocks();
                 return;
             }
@@ -121,7 +130,7 @@ namespace Gameplay
         private IEnumerator VerifyPairs()
         {
             isVerifyingPairs = true;
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.15f);
 
             if (selectedBlock1.NumberID != selectedBlock2.NumberID)
             {

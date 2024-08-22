@@ -12,6 +12,9 @@ namespace Core
 {    
     public class GameManager : MonoBehaviour
     {
+        [Header("Game System")]
+        [SerializeField] ScenesManager scenesManager;
+
         [Header("Game Initialization")]
         [SerializeField] CommunicationService commService;
         [SerializeField] LevelCreator levelCreator;
@@ -22,7 +25,7 @@ namespace Core
         [Header("Gameplay")]
         LevelBehaviour level;
 
-        private void Awake()
+        private void OnEnable()
         {
             InitializeGame();
         }
@@ -30,10 +33,26 @@ namespace Core
         private void InitializeGame()
         {
             GameDTO gameData = commService.ReadGameJSON();
+
+            if (gameData == null)
+            {
+                StartCoroutine(GameFailed());
+                return;
+            }
+
             level = levelCreator.CreateLevel(gameData.blocks);
             level.OnWinnerDetected.AddListener(OnGameFinished);
 
             level.username = GlobalObjects.instance.GetUsername();
+        }
+
+        private IEnumerator GameFailed()
+        {
+            ui_Manager.SendFeedBackMessage("Something went wrong >:/   Please Check the GameData JSON", Color.red);
+
+            yield return new WaitForSeconds(3f);
+
+            scenesManager.LoadScene(0); //Load Menu
         }
 
         private void OnGameFinished()
@@ -52,18 +71,38 @@ namespace Core
         {
             try
             {
-                ResultsDTO stats = level.GetStatistics();
+                ScoreBoardDTO scoreboard;
+
                 BinaryFormatter formatter = new BinaryFormatter();
                 string path = Application.streamingAssetsPath + "/stats.k337";
 
-                FileStream stream = new FileStream(path, FileMode.CreateNew);
+                FileStream stream;
 
-                formatter.Serialize(stream, stats);
+                if (File.Exists(path))
+                {
+                    stream = new FileStream(path, FileMode.Open);
+
+                    scoreboard = formatter.Deserialize(stream) as ScoreBoardDTO;
+                    stream.Close();
+                }
+                else
+                {
+                    scoreboard = new ScoreBoardDTO();
+                }
+
+                ResultsDTO stats = level.GetStatistics();
+                stream = new FileStream(path, FileMode.Create);
+
+                scoreboard.results.Add(stats);
+
+                formatter.Serialize(stream, scoreboard);
                 stream.Close();
+
+                ui_Manager.SendFeedBackMessage("Statistics saved successfully! :D" , Color.green);
             }
             catch (Exception error)
             {
-                ui_Manager.SendFeedBackMessage("An error has occured While Saving D:");
+                ui_Manager.SendFeedBackMessage("An error has occured While Saving D:" , Color.red);
                 throw new Exception($"An error has occurred: {error}");
             }
         }

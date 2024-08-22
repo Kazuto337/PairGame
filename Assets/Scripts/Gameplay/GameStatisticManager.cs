@@ -51,7 +51,7 @@ namespace Gameplay
         }
         private void CalculateSore()
         {
-            score = pairs * 100;
+            score = pairs * total_clicks + (int)total_time;
         }
 
         public void StopGameTime()

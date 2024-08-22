@@ -37,9 +37,10 @@ namespace Gameplay
             gameplayPanel.SetActive(false);
         }
 
-        public void SendFeedBackMessage(string message)
+        public void SendFeedBackMessage(string message , Color color)
         {
             feedbackTMP.text = message;
+            feedbackTMP.color = color;
             feedbackTMP.gameObject.SetActive(true);
 
             StartCoroutine(FeedbackMessageBehaviour());

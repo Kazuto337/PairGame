@@ -48,7 +48,7 @@ namespace Core
 
         private IEnumerator GameFailed()
         {
-            ui_Manager.SendFeedBackMessage("Something went wrong >:/   Please Check the GameData JSON", Color.red);
+            ui_Manager.SendFeedBackMessage("Something went wrong >:/ Please Check the GameData JSON", Color.red);
 
             yield return new WaitForSeconds(3f);
 

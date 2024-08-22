@@ -55,10 +55,7 @@ namespace Core
             List<BlockData> blocks = gameData.blocks;
 
             int rows = 0;
-            int colums = 0;
-
-            bool conditionA = (rows < 2 || rows > 8);
-            bool conditionB = (colums < 2 || colums > 8);
+            int colums = 0;            
 
             for (int i = 0; i < blocks.Count; i++)
             {
@@ -70,11 +67,14 @@ namespace Core
 
             for (int i = 0; i < blocks.Count; i++)
             {
-                if (rows < blocks[i].C)
+                if (colums < blocks[i].C)
                 {
-                    rows = blocks[i].C;
+                    colums = blocks[i].C;
                 }
             }
+
+            bool conditionA = (rows < 2 || rows > 8);
+            bool conditionB = (colums < 2 || colums > 8);
 
             if (conditionA || conditionB)
             {

@@ -17,7 +17,7 @@ namespace Gameplay
         int pairs2Win = 0;
         bool isVerifyingPairs = false;
 
-        public UnityEvent OnWinnerDetected { get => onWinnerDetected;}
+        public UnityEvent OnWinnerDetected { get => onWinnerDetected; }
 
         private void Start()
         {
@@ -47,18 +47,18 @@ namespace Gameplay
 
         private void CalculatePairs2Win()
         {
-            List<int> gameElements = new List<int>();            
+            List<int> gameElements = new List<int>();
             for (int i = 0; i < levelMatrix.GetLength(0); i++)
             {
                 for (int j = 0; j < levelMatrix.GetLength(1); j++)
                 {
-                    gameElements.Add(levelMatrix[i,j].NumberID);
+                    gameElements.Add(levelMatrix[i, j].NumberID);
                 }
             }
 
             for (int i = 0; i < gameElements.Count; i++)
             {
-                for (int j = i+1; j < gameElements.Count; j++)
+                for (int j = i + 1; j < gameElements.Count; j++)
                 {
                     if (gameElements[i] == gameElements[j])
                     {
@@ -80,9 +80,9 @@ namespace Gameplay
                 {
                     if (levelMatrix[i, j] != null)
                     {
-                        levelMatrix[i, j].GetComponent<RectTransform>().SetParent(spawnTransform , false);
-                        levelMatrix[i, j].transform.position = newPosition;
-                        newPosition.x += spacingX;
+                        levelMatrix[i, j].GetComponent<RectTransform>().SetParent(spawnTransform, false);
+                        //levelMatrix[i, j].transform.position = newPosition;
+                        //newPosition.x += spacingX;
                     }
                 }
 

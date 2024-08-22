@@ -24,6 +24,7 @@ namespace Gameplay
         private void Start()
         {
             winnerPanel.SetActive(false);
+            feedbackTMP.gameObject.SetActive(false);
         }
         public void ShowWinnerPanel(string totalClicks , string totalTime, string pairs , string score)
         {
@@ -48,6 +49,8 @@ namespace Gameplay
 
         private IEnumerator FeedbackMessageBehaviour()
         {
+            feedbackTMP.gameObject.SetActive(true);
+
             yield return new WaitForSeconds(3f);
             feedbackTMP.text = string.Empty;
             feedbackTMP.gameObject.SetActive(false);

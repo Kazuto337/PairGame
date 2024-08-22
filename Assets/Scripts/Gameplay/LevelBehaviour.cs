@@ -130,7 +130,7 @@ namespace Gameplay
         private IEnumerator VerifyPairs()
         {
             isVerifyingPairs = true;
-            yield return new WaitForSeconds(.15f);
+            yield return new WaitForSeconds(.25f);
 
             if (selectedBlock1.NumberID != selectedBlock2.NumberID)
             {
